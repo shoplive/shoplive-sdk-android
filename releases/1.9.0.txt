@@ -1,0 +1,13 @@
+# Shoplive Android SDK 1.9.0 (domestic)
+# source: matrix-sdk-android@8f0215907bcec93f8d2d47ebc9210bacd12f120d
+# tag: 1.9.0
+# artifactId:version
+shoplive-common:1.9.0
+shoplive-exoplayer:2.19.1.20
+shoplive-filter:1.9.0
+shoplive-media3:1.10.1.3
+shoplive-network:1.9.0
+shoplive-permission:1.9.0
+shoplive-sdk-core:1.9.0
+shoplive-short-form:1.9.0
+shoplive-video-editor:1.9.0
