@@ -1,0 +1,316 @@
+{
+    "formatVersion": "1.1",
+    "component": {
+        "group": "cloud.shoplive",
+        "module": "shoplive-player-sdk",
+        "version": "3.0.3",
+        "attributes": {
+            "org.gradle.status": "release"
+        }
+    },
+    "createdBy": {
+        "gradle": {
+            "version": "8.9"
+        }
+    },
+    "variants": [
+        {
+            "name": "releaseApiElements",
+            "attributes": {
+                "org.gradle.category": "library",
+                "org.gradle.dependency.bundling": "external",
+                "org.gradle.libraryelements": "aar",
+                "org.gradle.usage": "java-api"
+            },
+            "dependencies": [
+                {
+                    "group": "cloud.shoplive",
+                    "module": "shoplive-core",
+                    "version": {
+                        "requires": "3.0.3"
+                    }
+                },
+                {
+                    "group": "cloud.shoplive",
+                    "module": "shoplive-android-webrtc",
+                    "version": {
+                        "requires": "3.0.3"
+                    }
+                },
+                {
+                    "group": "org.jetbrains.kotlin",
+                    "module": "kotlin-stdlib",
+                    "version": {
+                        "requires": "1.9.25"
+                    }
+                },
+                {
+                    "group": "org.jetbrains.kotlinx",
+                    "module": "kotlinx-coroutines-android",
+                    "version": {
+                        "requires": "1.7.3"
+                    }
+                },
+                {
+                    "group": "androidx.appcompat",
+                    "module": "appcompat",
+                    "version": {
+                        "requires": "1.6.1"
+                    }
+                },
+                {
+                    "group": "com.google.android.material",
+                    "module": "material",
+                    "version": {
+                        "requires": "1.9.0"
+                    }
+                },
+                {
+                    "group": "androidx.lifecycle",
+                    "module": "lifecycle-extensions",
+                    "version": {
+                        "requires": "2.2.0"
+                    }
+                },
+                {
+                    "group": "androidx.lifecycle",
+                    "module": "lifecycle-runtime-ktx",
+                    "version": {
+                        "requires": "2.5.1"
+                    }
+                },
+                {
+                    "group": "androidx.media",
+                    "module": "media",
+                    "version": {
+                        "requires": "1.7.1"
+                    }
+                },
+                {
+                    "group": "androidx.media3",
+                    "module": "media3-exoplayer",
+                    "version": {
+                        "strictly": "[1.6.0, 1.12)",
+                        "requires": "[1.6.0, 1.12)",
+                        "prefers": "1.10.1"
+                    }
+                },
+                {
+                    "group": "androidx.media3",
+                    "module": "media3-exoplayer-hls",
+                    "version": {
+                        "strictly": "[1.6.0, 1.12)",
+                        "requires": "[1.6.0, 1.12)",
+                        "prefers": "1.10.1"
+                    }
+                },
+                {
+                    "group": "androidx.media3",
+                    "module": "media3-ui",
+                    "version": {
+                        "strictly": "[1.6.0, 1.12)",
+                        "requires": "[1.6.0, 1.12)",
+                        "prefers": "1.10.1"
+                    }
+                },
+                {
+                    "group": "androidx.media3",
+                    "module": "media3-datasource-okhttp",
+                    "version": {
+                        "strictly": "[1.6.0, 1.12)",
+                        "requires": "[1.6.0, 1.12)",
+                        "prefers": "1.10.1"
+                    }
+                },
+                {
+                    "group": "com.google.code.gson",
+                    "module": "gson",
+                    "version": {
+                        "requires": "2.8.9"
+                    }
+                },
+                {
+                    "group": "io.coil-kt",
+                    "module": "coil",
+                    "version": {
+                        "requires": "2.5.0"
+                    }
+                },
+                {
+                    "group": "io.coil-kt",
+                    "module": "coil-svg",
+                    "version": {
+                        "requires": "2.5.0"
+                    }
+                },
+                {
+                    "group": "com.squareup.okhttp3",
+                    "module": "okhttp",
+                    "version": {
+                        "requires": "4.12.0"
+                    }
+                }
+            ],
+            "files": [
+                {
+                    "name": "shoplive-player-sdk-3.0.3.aar",
+                    "url": "shoplive-player-sdk-3.0.3.aar",
+                    "size": 1851393,
+                    "sha512": "ba9f93da7bcab3c724d5b73d37bb5010b762d776cb7d64361a4e6fa15f6c86e273d557bf559d0f86ab1220306edd3d4c5528e5e8c7a9a0f18d746e3f3465708f",
+                    "sha256": "ed14dcb5afcf2855bee43fa49fb925b58f9d8c58a2fab01a65cbd1565b6f732d",
+                    "sha1": "21f24694f0dcedfe8ee36aa000834b2e98a7a24a",
+                    "md5": "0a79709aa0a1edfc689bc2f0d0968d54"
+                }
+            ]
+        },
+        {
+            "name": "releaseRuntimeElements",
+            "attributes": {
+                "org.gradle.category": "library",
+                "org.gradle.dependency.bundling": "external",
+                "org.gradle.libraryelements": "aar",
+                "org.gradle.usage": "java-runtime"
+            },
+            "dependencies": [
+                {
+                    "group": "cloud.shoplive",
+                    "module": "shoplive-core",
+                    "version": {
+                        "requires": "3.0.3"
+                    }
+                },
+                {
+                    "group": "cloud.shoplive",
+                    "module": "shoplive-android-webrtc",
+                    "version": {
+                        "requires": "3.0.3"
+                    }
+                },
+                {
+                    "group": "org.jetbrains.kotlin",
+                    "module": "kotlin-stdlib",
+                    "version": {
+                        "requires": "1.9.25"
+                    }
+                },
+                {
+                    "group": "org.jetbrains.kotlinx",
+                    "module": "kotlinx-coroutines-android",
+                    "version": {
+                        "requires": "1.7.3"
+                    }
+                },
+                {
+                    "group": "androidx.appcompat",
+                    "module": "appcompat",
+                    "version": {
+                        "requires": "1.6.1"
+                    }
+                },
+                {
+                    "group": "com.google.android.material",
+                    "module": "material",
+                    "version": {
+                        "requires": "1.9.0"
+                    }
+                },
+                {
+                    "group": "androidx.lifecycle",
+                    "module": "lifecycle-extensions",
+                    "version": {
+                        "requires": "2.2.0"
+                    }
+                },
+                {
+                    "group": "androidx.lifecycle",
+                    "module": "lifecycle-runtime-ktx",
+                    "version": {
+                        "requires": "2.5.1"
+                    }
+                },
+                {
+                    "group": "androidx.media",
+                    "module": "media",
+                    "version": {
+                        "requires": "1.7.1"
+                    }
+                },
+                {
+                    "group": "androidx.media3",
+                    "module": "media3-exoplayer",
+                    "version": {
+                        "strictly": "[1.6.0, 1.12)",
+                        "requires": "[1.6.0, 1.12)",
+                        "prefers": "1.10.1"
+                    }
+                },
+                {
+                    "group": "androidx.media3",
+                    "module": "media3-exoplayer-hls",
+                    "version": {
+                        "strictly": "[1.6.0, 1.12)",
+                        "requires": "[1.6.0, 1.12)",
+                        "prefers": "1.10.1"
+                    }
+                },
+                {
+                    "group": "androidx.media3",
+                    "module": "media3-ui",
+                    "version": {
+                        "strictly": "[1.6.0, 1.12)",
+                        "requires": "[1.6.0, 1.12)",
+                        "prefers": "1.10.1"
+                    }
+                },
+                {
+                    "group": "androidx.media3",
+                    "module": "media3-datasource-okhttp",
+                    "version": {
+                        "strictly": "[1.6.0, 1.12)",
+                        "requires": "[1.6.0, 1.12)",
+                        "prefers": "1.10.1"
+                    }
+                },
+                {
+                    "group": "com.google.code.gson",
+                    "module": "gson",
+                    "version": {
+                        "requires": "2.8.9"
+                    }
+                },
+                {
+                    "group": "io.coil-kt",
+                    "module": "coil",
+                    "version": {
+                        "requires": "2.5.0"
+                    }
+                },
+                {
+                    "group": "io.coil-kt",
+                    "module": "coil-svg",
+                    "version": {
+                        "requires": "2.5.0"
+                    }
+                },
+                {
+                    "group": "com.squareup.okhttp3",
+                    "module": "okhttp",
+                    "version": {
+                        "requires": "4.12.0"
+                    }
+                }
+            ],
+            "files": [
+                {
+                    "name": "shoplive-player-sdk-3.0.3.aar",
+                    "url": "shoplive-player-sdk-3.0.3.aar",
+                    "size": 1851393,
+                    "sha512": "ba9f93da7bcab3c724d5b73d37bb5010b762d776cb7d64361a4e6fa15f6c86e273d557bf559d0f86ab1220306edd3d4c5528e5e8c7a9a0f18d746e3f3465708f",
+                    "sha256": "ed14dcb5afcf2855bee43fa49fb925b58f9d8c58a2fab01a65cbd1565b6f732d",
+                    "sha1": "21f24694f0dcedfe8ee36aa000834b2e98a7a24a",
+                    "md5": "0a79709aa0a1edfc689bc2f0d0968d54"
+                }
+            ]
+        }
+    ]
+}
