@@ -1,0 +1,9 @@
+# Shoplive Android SDK 3.0.3 (international)
+# source: matrix-sdk-android@1ef75dbd5cf5454a5c99cba8fd37b84372d5563f
+# tag: 3.0.3
+# artifactId:version
+shoplive-android-webrtc:3.0.3
+shoplive-core:3.0.3
+shoplive-player-sdk:3.0.3
+shoplive-rootencoder:3.0.3
+shoplive-streamer-sdk:3.0.3
