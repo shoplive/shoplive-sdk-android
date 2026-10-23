@@ -1,0 +1,82 @@
+name: Finalize on artifact merge
+
+# [SMV-1737] 정본 — 이 파일은 matrix-sdk-android 에서 관리하고, 배포 리포(shoplive/shoplive-sdk-android)의
+# .github/workflows/finalize-on-artifact-merge.yml 로 **복사해 PR 로** 올린다(설치 절차: scripts/release-notes.md
+# "Installing the finalize hook on the distribution repository"). 두 사본이 다르면 이 정본이 맞다.
+#
+# 하는 일: 아티팩트 게시 PR(release/maven-<line>-<V> → maven-repo)이 **머지**되면 matrix-sdk-android 의
+# 'Publish SDK Release (finalize)' 를 tag=<V> 로 실행한다. 사람 손은 그 PR 의 머지 하나다 — 머지가 승인이다.
+#
+# 왜 pull_request_target 인가: 머지된 PR 의 이벤트에서 시크릿(MATRIX_FINALIZE_TOKEN)이 필요하다. 이 job 은
+# **체크아웃하지 않고** PR 의 코드를 실행하지도 않는다 — 브랜치 이름 문자열 하나를 형식 검사해 쓰므로
+# public 리포의 pull_request_target 위험(포크 코드가 시크릿과 함께 도는 것)이 없다. 그 이름도 env 로만
+# 넘긴다(식 안에 직접 넣으면 셸 주입이 된다). 포크에서 온 PR 은 이름이 맞아도 무시한다.
+#
+# 대상이 아닌 것: 사람이 직접 연 maven-repo PR(replace/* 등) · 닫기만 한 PR · 형식이 다른 브랜치.
+# 같은 V 의 finalize 가 두 번 돌아도 안전하다 — finalize 가 상태를 읽고 멱등으로 잇는다(concurrency 로 직렬).
+#
+# 필요한 것(관리자가 등록): 시크릿 MATRIX_FINALIZE_TOKEN — shoplive/matrix-sdk-android 의 actions:write
+# (fine-grained PAT 또는 GitHub App 토큰). 다른 권한은 필요 없다.
+
+on:
+  pull_request_target:
+    types: [closed]
+    branches: [maven-repo]
+
+permissions: {}
+
+concurrency:
+  group: finalize-on-artifact-merge-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    name: dispatch finalize
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/maven-')
+    steps:
+      - name: Run 'Publish SDK Release (finalize)' on matrix-sdk-android
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GH_TOKEN: ${{ secrets.MATRIX_FINALIZE_TOKEN }}
+          SOURCE_REPO: shoplive/matrix-sdk-android
+        run: |
+          set -euo pipefail
+          [[ "$HEAD_REPO" == "$GITHUB_REPOSITORY" ]] || {
+            echo "::warning::PR #${PR_NUMBER} 은 다른 리포(${HEAD_REPO})의 브랜치입니다 — finalize 대상이 아닙니다."
+            exit 0
+          }
+          # 브랜치 꼴: release/maven-<line>-<X.Y.Z> (deploy-github-release.sh 의 ARTIFACT_BRANCH). 라인↔major 도 맞아야 한다.
+          if [[ "$HEAD_REF" =~ ^release/maven-(domestic|international)-([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+            LINE="${BASH_REMATCH[1]}"; MAJOR="${BASH_REMATCH[2]}"
+            V="${BASH_REMATCH[2]}.${BASH_REMATCH[3]}.${BASH_REMATCH[4]}"
+          else
+            echo "::warning::${HEAD_REF} 는 아티팩트 게시 브랜치 꼴(release/maven-<line>-X.Y.Z)이 아닙니다 — finalize 를 실행하지 않습니다."
+            exit 0
+          fi
+          case "$LINE:$MAJOR" in
+            domestic:1|international:3) ;;
+            *) echo "::error::${HEAD_REF} — 라인 ${LINE} 과 버전 ${V} 의 major 가 맞지 않습니다. finalize 를 실행하지 않습니다."
+               exit 1 ;;
+          esac
+          [[ -n "${GH_TOKEN}" ]] || {
+            echo "::error::시크릿 MATRIX_FINALIZE_TOKEN 이 없습니다 — ${SOURCE_REPO} 의 Actions 에서 'Publish SDK Release (finalize)' 를 tag=${V} 로 손으로 실행하세요."
+            exit 1
+          }
+          # --ref develop 은 릴리스 브랜치 흐름[SMV-1737 relbranch]에서도 그대로 둔다. ref 는 finalize **YAML 을 어느 브랜치 것으로
+          # 쓸지**만 정한다 — finalize 는 매니페스트의 빌드 커밋으로 옮겨 가 그 트리의 스크립트로 판정·발행한다(release/<V> 빌드면
+          # release/<V> 의 스크립트). develop 에는 늘 최신 finalize 가 있고, 이 흐름 전에 잘린 release/* 에는 없거나 옛것이다.
+          # release/<V> 를 쓰려면 이 훅이 그 브랜치가 있는지까지 알아야 해서 결합만 는다.
+          gh workflow run publish-sdk-release-finalize.yml --repo "$SOURCE_REPO" --ref develop -f tag="$V" || {
+            echo "::error::finalize 실행 요청이 실패했습니다 — ${SOURCE_REPO} 의 Actions 에서 'Publish SDK Release (finalize)' 를 tag=${V} 로 손으로 실행하세요."
+            exit 1
+          }
+          echo "✅ ${SOURCE_REPO} 'Publish SDK Release (finalize)' tag=${V} 실행 요청 (PR #${PR_NUMBER} 머지)"
+          {
+            echo "### finalize ${V} (${LINE}) 요청됨"
+            echo
+            echo "- PR #${PR_NUMBER} (\`${HEAD_REF}\`) 머지"
+            echo "- https://github.com/${SOURCE_REPO}/actions/workflows/publish-sdk-release-finalize.yml"
+          } >> "$GITHUB_STEP_SUMMARY"
