@@ -149,3 +149,13 @@ duplicate-class errors. From 3.0.3, either Shortform engine works with them.
 - Team: Shoplive Mobile
 - Contact: [ask@shoplive.cloud](mailto:ask@shoplive.cloud)
 
+
+## Latest versions
+
+<!-- shoplive-sdk-versions:start -->
+
+| Line | Latest version | Release | Built from |
+| --- | --- | --- | --- |
+| international | 3.0.3 | [3.0.3](https://github.com/shoplive/shoplive-sdk-android/releases/tag/3.0.3) | `matrix-sdk-android@838a2ae` (2026-10-16) |
+
+<!-- shoplive-sdk-versions:end -->
