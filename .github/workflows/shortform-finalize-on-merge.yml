@@ -1,0 +1,68 @@
+name: Shortform finalize on artifact merge
+
+# [SMV-1987] 정본 — 이 파일은 matrix-shortform-android 에서 관리하고, 배포 저장소(shoplive/shoplive-sdk-android)의
+# .github/workflows/shortform-finalize-on-merge.yml 로 **복사해 PR 로** 설치한다. 두 사본이 다르면 이 정본이 맞다.
+# 라이브 SDK 의 훅(finalize-on-artifact-merge.yml, 정본 matrix-sdk-android)과 따로 둔다 — 그 파일은 고치지 않는다.
+#   라이브 훅은 release/maven-(domestic|international)-X.Y.Z 만 처리하고, 숏폼 브랜치는 경고만 남기고 끝낸다.
+#
+# 하는 일: 아티팩트 게시 PR(release/maven-shortform-<V> → maven-repo)이 **머지**되면 matrix-shortform-android 의
+# 'Publish Shortform Release (finalize)' 를 version=<V> 로 실행한다. 사람 손은 그 PR 의 머지 하나다.
+#
+# 왜 pull_request_target 인가: 머지된 PR 이벤트에서 시크릿이 필요하다. 이 job 은 체크아웃하지 않고 PR 코드를 실행하지 않는다 —
+# 브랜치 이름 문자열 하나를 형식 검사해 env 로만 쓴다(식 안에 직접 넣으면 셸 주입이 된다). 포크에서 온 PR 은 무시한다.
+#
+# 쓰는 시크릿: MATRIX_FINALIZE_TOKEN — 라이브 SDK 훅이 쓰는 것과 같은 배포 저장소 시크릿이다. 그 토큰(fine-grained PAT)의 대상 레포에
+# shoplive/matrix-shortform-android 를 더해(Actions: Read and write) 숏폼 finalize 도 실행한다(2026-11-11). 새 시크릿은 없다.
+
+on:
+  pull_request_target:
+    types: [closed]
+    branches: [maven-repo]
+
+permissions: {}
+
+concurrency:
+  group: shortform-finalize-on-merge-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    name: dispatch shortform finalize
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/maven-shortform-')
+    steps:
+      - name: Run 'Publish Shortform Release (finalize)' on matrix-shortform-android
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GH_TOKEN: ${{ secrets.MATRIX_FINALIZE_TOKEN }}
+          SOURCE_REPO: shoplive/matrix-shortform-android
+        run: |
+          set -euo pipefail
+          [[ "$HEAD_REPO" == "$GITHUB_REPOSITORY" ]] || {
+            echo "::warning::PR #${PR_NUMBER} 은 다른 저장소(${HEAD_REPO})의 브랜치입니다 — finalize 대상이 아닙니다."
+            exit 0
+          }
+          if [[ "$HEAD_REF" =~ ^release/maven-shortform-([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            V="${BASH_REMATCH[1]}"
+          else
+            echo "::warning::${HEAD_REF} 는 숏폼 게시 브랜치 꼴(release/maven-shortform-X.Y.Z)이 아닙니다 — finalize 를 실행하지 않습니다."
+            exit 0
+          fi
+          [[ -n "${GH_TOKEN}" ]] || {
+            echo "::error::시크릿 MATRIX_FINALIZE_TOKEN 이 없습니다 — ${SOURCE_REPO} 의 Actions 에서 'Publish Shortform Release (finalize)' 를 version=${V} 로 직접 실행하세요."
+            exit 1
+          }
+          # --ref release/<V>: 워크플로를 그 릴리스 브랜치의 것으로 실행한다 — 기본 브랜치(main)에 워크플로가 없어도 돈다.
+          gh workflow run publish-shortform-release-finalize.yml --repo "$SOURCE_REPO" --ref "release/${V}" -f version="$V" || {
+            echo "::error::finalize 실행 요청이 실패했습니다(MATRIX_FINALIZE_TOKEN 의 대상 레포에 ${SOURCE_REPO} · Actions 쓰기 권한이 있는지 확인) — ${SOURCE_REPO} 의 Actions 에서 'Publish Shortform Release (finalize)' 를 version=${V} 로 직접 실행하세요."
+            exit 1
+          }
+          echo "✅ ${SOURCE_REPO} 'Publish Shortform Release (finalize)' version=${V} 실행 요청 (PR #${PR_NUMBER} 머지)"
+          {
+            echo "### Shortform finalize ${V} 요청됨"
+            echo ""
+            echo "- PR #${PR_NUMBER} (\`${HEAD_REF}\`) 머지"
+            echo "- https://github.com/${SOURCE_REPO}/actions/workflows/publish-shortform-release-finalize.yml"
+          } >> "$GITHUB_STEP_SUMMARY"
