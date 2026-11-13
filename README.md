@@ -60,9 +60,10 @@ shoplive-streamer-sdk = { module = "cloud.shoplive:shoplive-streamer-sdk", versi
 implementation(libs.shoplive.player.sdk)
 ```
 
-Everything else — `shoplive-core`, `shoplive-core-player`, `shoplive-exoplayer`, `shoplive-webrtc`,
-`shoplive-android-webrtc`, `shoplive-rtmp` — is an implementation detail that arrives transitively
-through each product's POM. You never declare those yourself.
+For the player and streamer, everything else — `shoplive-core`, `shoplive-core-player`,
+`shoplive-exoplayer`, `shoplive-webrtc`, `shoplive-android-webrtc`, `shoplive-rtmp` — is an
+implementation detail that arrives transitively through each product's POM. You never declare those
+yourself. The Shortform SDK is the exception; see **Shortform** below.
 
 ### 3. Products
 
@@ -109,7 +110,8 @@ Shoplive.setUser(ShopliveUser.Guest)
 **Shortform**
 
 The Shortform SDK is versioned separately from the player and streamer. Unlike them, it does not
-pull in the shared modules it is built against, so declare those too, on the versions shown here:
+pull in the shared modules or the player engine it is built against, so declare those too, on the
+versions shown here — including exactly one engine (`shoplive-media3` or `shoplive-exoplayer`):
 
 <!-- shoplive-shortform-versions:start -->
 ```kotlin
