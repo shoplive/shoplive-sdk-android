@@ -114,3 +114,13 @@ Shoplive.setUser(ShopliveUser.Guest)
 - Team: Shoplive Mobile
 - Contact: [ask@shoplive.cloud](mailto:ask@shoplive.cloud)
 
+
+## Shortform SDK
+
+<!-- shoplive-shortform-versions:start -->
+
+| Shortform SDK | Latest version | Release | Works with |
+| --- | --- | --- | --- |
+| shoplive-filter · shoplive-video-editor · shoplive-short-form | 1.9.1 | [shortform-1.9.1](https://github.com/shoplive/shoplive-sdk-android/releases/tag/shortform-1.9.1) | shoplive-common:1.9.0 shoplive-network:1.9.0 shoplive-media3:1.10.1.3 |
+
+<!-- shoplive-shortform-versions:end -->
