@@ -3,13 +3,14 @@
   <groupId>cloud.shoplive</groupId>
   <artifactId>shoplive-video-editor</artifactId>
   <versioning>
-    <latest>1.9.0</latest>
-    <release>1.9.0</release>
+    <latest>1.9.1</latest>
+    <release>1.9.1</release>
     <versions>
       <version>1.8.13</version>
       <version>1.8.14</version>
       <version>1.9.0</version>
+      <version>1.9.1</version>
     </versions>
-    <lastUpdated>20261008070138</lastUpdated>
+    <lastUpdated>20261113052112</lastUpdated>
   </versioning>
 </metadata>
