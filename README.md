@@ -130,6 +130,11 @@ implementation("cloud.shoplive:shoplive-media3:1.10.1.3")
 
 Leave out `shoplive-video-editor` (and `shoplive-filter`) if you only play short-form videos.
 
+To use the Shortform SDK alongside the player or streamer, use version 3.0.3 or later of those.
+Earlier 3.0.x versions bundle the same shared-module classes as `shoplive-common` and
+`shoplive-network`, or pull in a player engine of their own, and the build fails with
+duplicate-class errors. From 3.0.3, either Shortform engine works with them.
+
 ## Releases
 
 - [Releases](https://github.com/shoplive/shoplive-sdk-android/releases) — tagged versions with the
