@@ -1,0 +1,9 @@
+# Live SDK 3.0.8 (international)
+# source: matrix-sdk-android@b752fb0b4164e740a443d6934850481187becc94
+# tag: 3.0.8
+# artifactId:version
+shoplive-android-webrtc:3.0.8
+shoplive-core:3.0.8
+shoplive-player-sdk:3.0.8
+shoplive-rootencoder:3.0.8
+shoplive-streamer-sdk:3.0.8
