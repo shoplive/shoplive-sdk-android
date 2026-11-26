@@ -114,18 +114,11 @@ pull in the shared modules or the player engine it is built against, so declare 
 versions shown here — including exactly one engine (`shoplive-media3` or `shoplive-exoplayer`):
 
 <!-- shoplive-shortform-versions:start -->
-```kotlin
-implementation("cloud.shoplive:shoplive-filter:1.9.1")
-implementation("cloud.shoplive:shoplive-short-form:1.9.1")
-implementation("cloud.shoplive:shoplive-video-editor:1.9.1")
 
-// Required: the Shortform SDK is built against these and does not pull them in — declare them too.
-implementation("cloud.shoplive:shoplive-common:1.9.0")
-implementation("cloud.shoplive:shoplive-network:1.9.0")
-// Player engine — declare exactly one of the two.
-implementation("cloud.shoplive:shoplive-media3:1.10.1.3")
-// implementation("cloud.shoplive:shoplive-exoplayer:2.19.1.20")
-```
+| Shortform SDK | Latest version | Release | Works with |
+| --- | --- | --- | --- |
+| shoplive-api · shoplive-filter · shoplive-video-editor · shoplive-short-form | 1.9.2 | [shortform-1.9.2](https://github.com/shoplive/shoplive-sdk-android/releases/tag/shortform-1.9.2) | shoplive-common:1.9.0 shoplive-network:1.9.0 shoplive-media3:1.10.1.3 |
+
 <!-- shoplive-shortform-versions:end -->
 
 Leave out `shoplive-video-editor` (and `shoplive-filter`) if you only play short-form videos.
