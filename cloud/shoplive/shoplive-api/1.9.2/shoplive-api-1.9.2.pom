@@ -10,7 +10,7 @@
   <url>https://www.shoplive.cloud/</url>
   <licenses>
     <license>
-      <name>MIT License</name>
+      <name>Copyright Shoplive</name>
       <url>https://github.com/shoplive/android-sdk-sample/blob/develop/LICENSE</url>
     </license>
   </licenses>
@@ -18,7 +18,7 @@
     <developer>
       <id>developer</id>
       <name>Shoplive</name>
-      <email>ask@shoplive.cloud</email>
+      <email>mobile@shoplive.cloud</email>
     </developer>
   </developers>
   <scm>
